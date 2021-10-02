@@ -42,20 +42,18 @@ def get_optimal_path(
         elif y == 0:
             x -= 1
         else:
-            cost_l = cost_matrix[y][x - 1]
-            cost_d = cost_matrix[y - 1][x - 1]
-            cost_b = cost_matrix[y - 1][x]
-            if cost_l < cost_d:
-                if cost_l < cost_b:
+            cost_leftside = cost_matrix[y][x - 1]
+            cost_diagonal = cost_matrix[y - 1][x - 1]
+            cost_bottom = cost_matrix[y - 1][x]
+            if cost_leftside < cost_diagonal:
+                if cost_leftside < cost_bottom:
                     x -= 1
                 else:
                     y -= 1
             else:
-                if cost_b < cost_d:
-                    y -= 1
-                else:
+                y -= 1
+                if cost_diagonal <= cost_bottom:
                     x -= 1
-                    y -= 1
 
     return optimal_pairs[::-1], optimal_costs[::-1]
 
