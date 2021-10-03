@@ -31,30 +31,30 @@ def get_optimal_path(
         cost_matrix: Matrix
 ) -> Tuple[Sequence[Tuple[int, int]], Sequence[int]]:
     optimal_path_pairs, optimal_path_costs = [], []
-    x2, x1 = len(cost_matrix) - 1, len(cost_matrix[0]) - 1
+    y2, y1 = len(cost_matrix) - 1, len(cost_matrix[0]) - 1
 
     while True:
-        optimal_path_pairs.append((x1, x2))
-        optimal_path_costs.append(cost_matrix[x2][x1])
-        if x1 == 0 and x2 == 0:
+        optimal_path_pairs.append((y1, y2))
+        optimal_path_costs.append(cost_matrix[y2][y1])
+        if y1 == 0 and y2 == 0:
             break
-        elif x1 == 0:
-            x2 -= 1
-        elif x2 == 0:
-            x1 -= 1
+        elif y1 == 0:
+            y2 -= 1
+        elif y2 == 0:
+            y1 -= 1
         else:
-            horizontal_cost = cost_matrix[x2][x1 - 1]
-            diagonal_cost = cost_matrix[x2 - 1][x1 - 1]
-            vertical_cost = cost_matrix[x2 - 1][x1]
+            horizontal_cost = cost_matrix[y2][y1 - 1]
+            diagonal_cost = cost_matrix[y2 - 1][y1 - 1]
+            vertical_cost = cost_matrix[y2 - 1][y1]
             if horizontal_cost < diagonal_cost:
                 if horizontal_cost < vertical_cost:
-                    x1 -= 1
+                    y1 -= 1
                 else:
-                    x2 -= 1
+                    y2 -= 1
             else:
-                x2 -= 1
+                y2 -= 1
                 if diagonal_cost <= vertical_cost:
-                    x1 -= 1
+                    y1 -= 1
 
     return optimal_path_pairs[::-1], optimal_path_costs[::-1]
 

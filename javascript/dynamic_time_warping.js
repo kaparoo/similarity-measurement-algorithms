@@ -23,19 +23,19 @@ function displayMatrix(matrix) {
 function getCostMatrix(seq1, seq2) {
     let costMatrix = makeMatrix(seq2.length, seq1.length, 0);
 
-    for (const [y, elem2] of seq2.entries()) {
-        for (const [x, elem1] of seq1.entries()) {
+    for (const [x2, elem2] of seq2.entries()) {
+        for (const [x1, elem1] of seq1.entries()) {
             let penalty = 0;
-            if (x === 0 && y === 0) {
+            if (x1 === 0 && x2 === 0) {
                 continue;
-            } else if (x === 0) {
-                penalty = costMatrix[y - 1][0];
-            } else if (y === 0) {
-                penalty = costMatrix[0][x - 1];
+            } else if (x1 === 0) {
+                penalty = costMatrix[x2 - 1][0];
+            } else if (x2 === 0) {
+                penalty = costMatrix[0][x1 - 1];
             } else {
-                penalty = Math.min(costMatrix[y - 1][x], costMatrix[y - 1][x - 1], costMatrix[y][x - 1]);
+                penalty = Math.min(costMatrix[x2 - 1][x1], costMatrix[x2 - 1][x1 - 1], costMatrix[x2][x1 - 1]);
             }
-            costMatrix[y][x] = Math.abs(elem1-elem2) + penalty;
+            costMatrix[x2][x1] = Math.abs(elem1-elem2) + penalty;
         }
     }
 
@@ -46,32 +46,32 @@ function getCostMatrix(seq1, seq2) {
 function getOptimalPath(costMatrix) {
     const optimalPathCoords = [];
     const optimalPathCosts = [];
-    let x = costMatrix[0].length - 1;
-    let y = costMatrix.length - 1;
+    let y1 = costMatrix[0].length - 1;
+    let y2 = costMatrix.length - 1;
     
     while (true) {
-        optimalPathCoords.push([x, y])
-        optimalPathCosts.push(costMatrix[y][x])
-        if (x === 0 && y === 0) {
+        optimalPathCoords.push([y1, y2])
+        optimalPathCosts.push(costMatrix[y2][y1])
+        if (y1 === 0 && y2 === 0) {
             break;
-        } else if (x === 0) {
-            --y;
-        } else if (y === 0) {
-            --x;
+        } else if (y1 === 0) {
+            --y2;
+        } else if (y2 === 0) {
+            --y1;
         } else {
-            const horizontalCost = costMatrix[y][x - 1];
-            const diagonalCost = costMatrix[y - 1][x - 1];
-            const verticalCost = costMatrix[y - 1][x];
+            const horizontalCost = costMatrix[y2][y1 - 1];
+            const diagonalCost = costMatrix[y2 - 1][y1 - 1];
+            const verticalCost = costMatrix[y2 - 1][y1];
             if (horizontalCost < diagonalCost) {
                 if (horizontalCost < verticalCost) {
-                    --x;
+                    --y1;
                 } else {
-                    --y;
+                    --y2;
                 }
             } else {
-                --y;
+                --y2;
                 if (diagonalCost <= verticalCost) {
-                    --x;
+                    --y1;
                 }
             }
         }

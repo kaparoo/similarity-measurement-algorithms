@@ -3,7 +3,7 @@
 from absl import app
 from absl import flags
 
-import dynamic_time_wraping as dtw
+import dynamic_time_warping as dtw
 import utils
 
 _ENABLE_ALGORITHMS = ["dtw"]
