@@ -1,4 +1,7 @@
 {
     "editor.formatOnSave": true,
-    "python.formatting.provider": "yapf"
+    "python.formatting.provider": "yapf",
+    "prettier.printWidth": 100,
+    "prettier.tabWidth": 4,
+    "prettier.singleQuote": false,   
 }
