@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from typing import Callable
+from typing import List
 from typing import Sequence
 from typing import Tuple
 
@@ -9,7 +10,7 @@ def get_cost_matrix(
     seq1: Sequence[int],
     seq2: Sequence[int],
     cost_metric: Callable[[int, int], int] = lambda n1, n2: abs(n1 - n2)
-) -> Sequence[Sequence[int]]:
+) -> List[List[int]]:
     cost_matrix = [[0 for _ in seq1] for _ in seq2]
     for y, elem2 in enumerate(seq2):
         for x, elem1 in enumerate(seq1):
@@ -27,8 +28,8 @@ def get_cost_matrix(
 
 
 def get_optimal_path(
-    cost_matrix: Sequence[Sequence[int]]
-) -> Tuple[Sequence[int], Sequence[Tuple[int, int]]]:
+    cost_matrix: List[List[int]]
+) -> Tuple[Sequence[Tuple[int, int]], Sequence[int]]:
     optimal_costs = []
     optimal_pairs = []
     y, x = len(cost_matrix) - 1, len(cost_matrix[0]) - 1
@@ -62,7 +63,7 @@ def run(
     seq1: Sequence[int],
     seq2: Sequence[int],
     cost_metric: Callable[[int, int], int] = lambda x, y: abs(x - y)
-) -> Tuple[Sequence[int], Sequence[Tuple[int, int]], Sequence[Sequence[int]]]:
+) -> Tuple[Sequence[Tuple[int, int]], Sequence[int], List[List[int]]]:
     cost_matrix = get_cost_matrix(seq1, seq2, cost_metric)
     optimal_pairs, optimal_costs = get_optimal_path(cost_matrix)
     return optimal_pairs, optimal_costs, cost_matrix

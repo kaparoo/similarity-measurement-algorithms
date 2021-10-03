@@ -2,10 +2,10 @@
 
 import copy
 import math
-from typing import Sequence
+from typing import List
 
 
-def display_matrix(matrix: Sequence[Sequence[int]]) -> None:
+def display_matrix(matrix: List[List[int]]) -> None:
     matrix = copy.deepcopy(matrix)[::-1]
     num_digits = int(math.log10(max(map(max, matrix)))) + 1
     for raw in matrix:
