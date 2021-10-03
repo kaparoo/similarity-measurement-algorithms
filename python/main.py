@@ -22,15 +22,18 @@ def main(_):
 
     algorithm = FLAGS.algorithm
     if algorithm == "dtw":
-        coords, costs, cost_matrix = dtw.run(seq1, seq2)
-        utils.display_matrix(cost_matrix)
-        print("seq1 (x-axis):", seq1)  # [1, 7, 3, 4, 1, 10, 5, 4, 7, 4]
-        print("seq2 (y-axis):", seq2)  # [1, 4, 5, 10, 9, 3, 2, 6, 8, 4]
-        # [(0, 0), (1, 1), (2, 1), (3, 1), (4, 2), (5, 3),
-        #  (5, 4), (6, 5), (7, 6), (8, 7), (8, 8), (9, 9)]
-        print("optimal_path_coords:", coords)
-        # [0, 3, 4, 4, 8, 8, 9, 11, 13, 14, 15, 15]
-        print("optimal_path_costs:", costs)
+        pairs, costs, cost_matrix = dtw.run(seq1, seq2)
+        # utils.display_matrix(cost_matrix)
+        # print("seq1 (x-axis):", seq1)  # [1, 7, 3, 4, 1, 10, 5, 4, 7, 4]
+        # print("seq2 (y-axis):", seq2)  # [1, 4, 5, 10, 9, 3, 2, 6, 8, 4]
+        # # [(0, 0), (1, 1), (2, 1), (3, 1), (4, 2), (5, 3),
+        # #  (5, 4), (6, 5), (7, 6), (8, 7), (8, 8), (9, 9)]
+        # print("optimal_path_pairs:", pairs)
+        # # [0, 3, 4, 4, 8, 8, 9, 11, 13, 14, 15, 15]
+        # print("optimal_path_costs:", costs)
+
+        utils.plot_matrix(cost_matrix, pairs)
+        utils.plot_sequences(seq1, seq2, pairs)
 
 
 if __name__ == "__main__":
