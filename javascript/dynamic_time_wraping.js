@@ -9,6 +9,17 @@ function makeMatrix(numRows, numCols, initialValue = 0) {
     return matrix;
 }
 
+
+function displayMatrix(matrix) {
+    matrix.reverse();
+    matrix.forEach(row => {
+        row.forEach(element => process.stdout.write(`[${element}]`));
+        console.log();
+    });
+    matrix.reverse();
+}
+
+
 function getCostMatrix(seq1, seq2) {
     let costMatrix = makeMatrix(seq2.length, seq1.length, 0);
 
@@ -31,14 +42,15 @@ function getCostMatrix(seq1, seq2) {
     return costMatrix;
 }
 
+
 function getOptimalPath(costMatrix) {
+    const optimalPathCoords = [];
     const optimalPathCosts = [];
-    const optimalPathPairs = [];
     let x = costMatrix[0].length - 1;
     let y = costMatrix.length - 1;
     
     while (true) {
-        optimalPathPairs.push([x, y])
+        optimalPathCoords.push([x, y])
         optimalPathCosts.push(costMatrix[y][x])
         if (x === 0 && y === 0) {
             break;
@@ -47,41 +59,32 @@ function getOptimalPath(costMatrix) {
         } else if (y === 0) {
             --x;
         } else {
-            const leftsideCost = costMatrix[y][x - 1];
+            const horizontalCost = costMatrix[y][x - 1];
             const diagonalCost = costMatrix[y - 1][x - 1];
-            const bottomCost = costMatrix[y - 1][x];
-            if (leftsideCost < diagonalCost) {
-                if (leftsideCost < bottomCost) {
+            const verticalCost = costMatrix[y - 1][x];
+            if (horizontalCost < diagonalCost) {
+                if (horizontalCost < verticalCost) {
                     --x;
                 } else {
                     --y;
                 }
             } else {
                 --y;
-                if (diagonalCost <= bottomCost) {
+                if (diagonalCost <= verticalCost) {
                     --x;
                 }
             }
         }
     }
 
-    return [optimalPathPairs.reverse(), optimalPathCosts.reverse()];
+    return [optimalPathCoords.reverse(), optimalPathCosts.reverse()];
 }
 
 
 function run(seq1, seq2) {
     const costMatrix = getCostMatrix(seq1, seq2);
-    const [optimalPathPairs, optimalPathCosts] = getOptimalPath(costMatrix);
-    return [optimalPathPairs, optimalPathCosts, costMatrix];
-}
-
-function displayMatrix(matrix) {
-    matrix.reverse();
-    matrix.forEach(row => {
-        row.forEach(element => process.stdout.write(`[${element}]`));
-        console.log();
-    });
-    matrix.reverse();
+    const [optimalPathCoords, optimalPathCosts] = getOptimalPath(costMatrix);
+    return [optimalPathCoords, optimalPathCosts, costMatrix];
 }
 
 
@@ -89,14 +92,10 @@ function main() {
     let seq1 = [1, 7, 3, 4, 1, 10, 5, 4, 7, 4];
     let seq2 = [1, 4, 5, 10, 9, 3, 2, 6, 8, 4];
 
-    const [optimalPathPairs, optimalPathCosts, costMatrix] = run(seq1, seq2);
-    // let costMatrix = getCostMatrix(seq1, seq2);
+    const [optimalPathCoords, optimalPathCosts, costMatrix] = run(seq1, seq2);
     displayMatrix(costMatrix);
     console.log("seq1 (x-axis):", seq1);
     console.log("seq2 (y-axis):", seq2);
-    
-    // let [optimalPathPairs, optimalPathCosts] = getOptimalPath(costMatrix);
-    
-    console.log("optimalPathPairs [(x, y)]:", optimalPathPairs);
+    console.log("optimalPathCoords:", optimalPathCoords);
     console.log("optimalPathCosts:", optimalPathCosts);
 }
